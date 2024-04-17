@@ -8,7 +8,7 @@ from django.utils.text import slugify
 
 
 class Category(models.Model):
-    name = models.CharField('Категория', max_length=250, db_index=True, verbose_name='Категория')
+    name = models.CharField('Категория', max_length=250, db_index=True)
     parent = models.ForeignKey('self', on_delete=models.CASCADE, related_name='children', blank=True, null=True)
     slug = models.SlugField('URL', max_length=250, unique=True, null=False, editable=True)
     created_at = models.DateTimeField('Дата создания', auto_now_add=True)
@@ -44,9 +44,9 @@ class Category(models.Model):
 
 class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
-    title = models.CharField('Название', max_length=250, verbose_name='Название')
-    brand = models.CharField('Бренд', max_length=250, verbose_name='Бренд')
-    desciption = models.TextField('Описание', blank=True, verbose_name='Описание')
+    title = models.CharField('Название', max_length=250, )
+    brand = models.CharField('Бренд', max_length=250)
+    desciption = models.TextField('Описание', blank=True)
     slug = models.SlugField('URL', max_length=250)
     price = models.DecimalField('Цена', max_digits=7, decimal_places=2, default=99.99)
     image = models.ImageField('Изображение',  upload_to='images/products/%Y/%m/%d', default='products/products/default.jpg')
