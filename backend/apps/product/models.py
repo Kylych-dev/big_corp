@@ -39,7 +39,7 @@ class Category(models.Model):
         super(Category, self).save(*args, **kwargs)
 
     # def get_absolute_url(self):
-        # return reverse("shop:category-list", args=[str(self.slug)])
+    #     return reverse("shop:category-list", args=[str(self.slug)])
 
 
 class Product(models.Model):
