@@ -140,7 +140,7 @@ GitHub.sublime-settings
   
 .idea/
 # Игнорировать все файлы PNG в папке "backend/images/products"
-backend/images/products/*.png
+backend/images/
 
 # Игнорировать все файлы PNG рекурсивно в папке "backend/images/products"
 backend/images/products/**/*.png
