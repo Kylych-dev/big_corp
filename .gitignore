@@ -139,3 +139,8 @@ GitHub.sublime-settings
 .DS_Store  
   
 .idea/
+# Игнорировать все файлы PNG в папке "backend/images/products"
+backend/images/products/*.png
+
+# Игнорировать все файлы PNG рекурсивно в папке "backend/images/products"
+backend/images/products/**/*.png
