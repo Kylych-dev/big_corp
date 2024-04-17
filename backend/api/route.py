@@ -26,7 +26,9 @@ urlpatterns.extend(
         # path("logout/", UserAuthenticationView.as_view({"post": "logout"}), name="logout"),
 
         # Products
-        path("products/", ProductModelViewSet.as_view({"get": "list_products"}), name="products-list"),
+        path("products/", ProductModelViewSet.as_view({"get": "products_list"}), name="products-list"),
+        path("products-detail/<slug>/", ProductModelViewSet.as_view({"get": "product_detail"}), name="products-detail"),
+
         # path("apartments/create/", EstablishmentModelViewSet.as_view({"post": "create"}), name="apartments-create"),
         # path("apartments/update/<int:pk>/", EstablishmentModelViewSet.as_view({"put": "update"}),
         #      name="apartments-update"),
@@ -34,7 +36,7 @@ urlpatterns.extend(
         #      name="apartments-delete"),
 
         # Category
-        path("category/", CategoryModelViewSet.as_view({"get": "list_category"}), name="category-list"),
+        path("category-list/<slug>/", CategoryModelViewSet.as_view({"get": "category_list"}), name="category-list"),
 
     ]
 )

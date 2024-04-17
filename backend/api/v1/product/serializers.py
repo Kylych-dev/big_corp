@@ -1,20 +1,20 @@
 from rest_framework import serializers
 from apps.product.models import (
+    ProductProxy,
     Product,
     Category
 )
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    """Сериализатор заказа"""
-
     class Meta:
         model = Product
         fields = (
             'id',
             'category',
             'title',
-            'brand'
+            'brand',
+            'slug'
         )
 
 
@@ -23,7 +23,8 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields = (
             "id",
-            "name"
+            "name",
+            "slug"
         )
 
 
