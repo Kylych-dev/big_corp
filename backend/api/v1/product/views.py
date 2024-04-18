@@ -16,7 +16,7 @@ from .serializers import (
 from apps.product.models import (
     ProductProxy,
     Product,
-    Category
+    Category,
 )
 
 
@@ -102,3 +102,4 @@ class CategoryModelViewSet(viewsets.ModelViewSet):
                 'product': serializer_product.data,
             }
         )
+
