@@ -73,6 +73,25 @@ class ProductModelViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
+    # def product_detail(self, request, *args, **kwargs):
+    #     slug = request.query_params.get("slug", None)
+    #     print(slug, '------------')
+    #     if slug is None:
+    #         try:
+    #             product = self.get_queryset().get(slug=slug)
+    #             serializer = self.get_serializer(product)
+    #             return Response(serializer.data)
+    #         except Product.DoesNotExist:
+    #             return Response(
+    #                 {
+    #                     "detail": "Продукт не найден."
+    #                     },
+    #                     status=status.HTTP_404_NOT_FOUND
+    #                 )
+
+
+
+
 class CategoryModelViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer

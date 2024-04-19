@@ -6,6 +6,10 @@ from .v1.product.views import (
     CategoryModelViewSet
 )
 
+from .v1.cart.views import (
+    CartModelViewSet,
+)
+
 # from api.auth.views import (
 #     RegisterView,
 #     UserAuthenticationView
@@ -29,6 +33,12 @@ urlpatterns.extend(
         path("products/", ProductModelViewSet.as_view({"get": "products_list"}), name="products-list"),
         path("products-detail/<slug>/", ProductModelViewSet.as_view({"get": "product_detail"}), name="products-detail"),
 
+        # Cart
+        path("cart-list/", CartModelViewSet.as_view({"get": "cart_list"}), name="cart"),
+        path("cart-add/", CartModelViewSet.as_view({"post": "cart_add"}), name="cart-add"),
+        path("cart-update/", CartModelViewSet.as_view({"post": "cart_update"}), name="cart-update"),
+        path("cart-delete/", CartModelViewSet.as_view({"post": "cart_delete"}), name="cart-delete"),
+
         # path("apartments/create/", EstablishmentModelViewSet.as_view({"post": "create"}), name="apartments-create"),
         # path("apartments/update/<int:pk>/", EstablishmentModelViewSet.as_view({"put": "update"}),
         #      name="apartments-update"),
@@ -40,3 +50,12 @@ urlpatterns.extend(
 
     ]
 )
+
+
+'''
+http://127.0.0.1:3000/api/v1/products-detail/cars/
+
+
+http://127.0.0.1:3000/api/v1/products-detail/?slug=cars
+
+'''
