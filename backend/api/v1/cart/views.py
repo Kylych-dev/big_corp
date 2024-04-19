@@ -8,28 +8,30 @@ from drf_yasg.utils import swagger_auto_schema
 from django.shortcuts import get_object_or_404
 from drf_yasg import openapi
 
-from .serializers import (
-    CartSerializer,
-)
-
-from apps.product.models import (
-    ProductProxy,
-    Product,
-    Category,
-)
+from apps.cart.cart_session import Cart
+from apps.product.models import ProductProxy
 
 
-class CartModelViewSet(viewsets.ModelViewSet):
-    queryset = Cart.objects.all()
-    serializer_class = CartSerializer
+class CartModelViewSet(viewsets.ViewSet):
 
     @action(detail=True, methods=["get"])
     def cart_list(self, request):
-        pass
+        cart = Cart(request)
+        serialized_cart = cart.serialize_cart()
+        return Response(serialized_cart)
 
-    @action(detail=True, methods=["get"])
+    @action(detail=True, methods=["post"])
     def cart_add(self, request):
-        pass
+        product_id = request.data.get('product_id')
+        quantity = request.data.get('quantity')
+        product = get_object_or_404(ProductProxy, pk=product_id)
+        cart = Cart(request)
+        cart.add(product, quantity)
+        cart.serialize_cart()
+        return Response(
+            {'message': 'Product added to cart successfully'},
+            status=status.HTTP_200_OK
+        )
 
     @action(detail=True, methods=["get"])
     def cart_delete(self, request):
