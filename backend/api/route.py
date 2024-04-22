@@ -31,7 +31,7 @@ urlpatterns.extend(
 
         # Products
         path("products/", ProductModelViewSet.as_view({"get": "products_list"}), name="products-list"),
-        path("products-detail/<slug>/", ProductModelViewSet.as_view({"get": "product_detail"}), name="products-detail"),
+        path("products-detail/<slug:slug>/", ProductModelViewSet.as_view({"get": "product_detail"}), name="products-detail"),
 
         # Cart
         path("cart-list/", CartModelViewSet.as_view({"get": "cart_list"}), name="cart"),
