@@ -21,10 +21,10 @@ class CartModelViewSet(viewsets.ViewSet):
 
     @action(detail=True, methods=["post"])
     def cart_add(self, request):
+        cart = Cart(request)
         product_id = request.data.get('product_id')
         quantity = request.data.get('quantity')
         product = get_object_or_404(ProductProxy, pk=product_id)
-        cart = Cart(request)
         cart.add(product, quantity)
         cart.serialize_cart()
         return Response(
@@ -34,16 +34,23 @@ class CartModelViewSet(viewsets.ViewSet):
 
     @action(detail=True, methods=["post"])
     def cart_delete(self, request):
-        product_id = request.data.get('product_id')
         cart = Cart(request)
+        product_id = request.data.get('product_id')
         cart.delete_product(product_id)
         cart_qty = cart.__len__()
         cart_total = cart.get_total_price()
-        pass
+        return Response(
+            {
+                'message': 'Product removed from cart successfully',
+                'cart_qty': cart_qty,
+                'cart_total': cart_total
+            },
+            status=status.HTTP_200_OK
+        )
 
     @action(detail=True, methods=["update"])
     def cart_update(self, request):
-        pass
+        cart = Cart(request)
 
 
 '''
