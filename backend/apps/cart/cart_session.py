@@ -1,5 +1,6 @@
 from ..product.models import ProductProxy
 from django.conf import settings
+from decimal import Decimal
 
 class Cart():
 
@@ -13,6 +14,23 @@ class Cart():
             # save an empty cart in the session
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
+
+    def __len__(self):
+        return sum(item['qty'] for item in self.cart.values())
+
+    def __iter__(self):
+        product_ids = self.cart.keys()
+        products = ProductProxy.objects.fitler(id__in=product_ids)
+        cart = self.cart.copy()
+
+        for product in products:
+            cart[str(product.id)]['product'] = product
+
+        for item in cart.values():
+            item['price'] = Decimal(item['price'])
+            item['total'] = item['price'] * item['qty']
+            yield item
+
 
     def serialize_cart(self):
         """
@@ -39,6 +57,8 @@ class Cart():
         self.cart[product_id]['qty'] = quantity
         self.session.modified = True
 
+    def get_total_price(self):
+        return sum(Decimal(item['price']) * item['qty'] for item in self.cart.values())
 
 
 
