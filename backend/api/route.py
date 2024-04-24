@@ -12,8 +12,8 @@ from .v1.cart.views import (
 
 from api.auth.views import (
     UserRegisterView,
-    ManagerRegisterView
-    # UserAuthenticationView
+    ManagerRegisterView,
+    UserAuthenticateView
 )
 
 router = DefaultRouter(trailing_slash=False)
@@ -24,13 +24,12 @@ urlpatterns.extend(
     [
 
         # registration
-        # path("register/", UserRegisterView.as_view({"post": "register"}), name="register"),
         path("user-register/", UserRegisterView.as_view(), name="user-register"),
         path("manager-register/", ManagerRegisterView.as_view(), name="manager-register"),
 
         # # login
-        # path("login/", UserAuthenticationView.as_view({"post": "login"}), name="login"),
-        # path("logout/", UserAuthenticationView.as_view({"post": "logout"}), name="logout"),
+        path("login/", UserAuthenticateView.as_view({"post": "login"}), name="login"),
+        path("logout/", UserAuthenticateView.as_view({"post": "logout"}), name="logout"),
 
         # Products
         path("products/", ProductModelViewSet.as_view({"get": "products_list"}), name="products-list"),
