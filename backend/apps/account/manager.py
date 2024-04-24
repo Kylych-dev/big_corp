@@ -10,8 +10,6 @@ class CustomUserManager(BaseUserManager):
             email=email,
             **extra_fields
         )
-        if role is not None:
-            user.set_role(role)
         user.set_password(password)
         user.save(using=self._db)
         return user
