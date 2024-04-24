@@ -13,9 +13,10 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     ROLE_CHOICES = (
         ('admin', 'Admin'),
         ('manager', 'Manager'),
-        ('user', 'User'),
+        ('user', 'User')
     )
     email = models.EmailField(_('email address'), unique=True, max_length=60)
+    password = models.CharField(_('password'), max_length=60, unique=True)
     role = models.CharField(_('role'), max_length=20, choices=ROLE_CHOICES, default='manager')
 
     is_active = models.BooleanField(_('active'), default=True)
@@ -46,7 +47,7 @@ class UserProfile(models.Model):
         verbose_name_plural = _('user profiles')
 
     def __str__(self):
-        return self.first_name
+        return self.user.email
 
 
 class ManagerProfile(models.Model):
@@ -59,6 +60,6 @@ class ManagerProfile(models.Model):
         verbose_name_plural = _('manager profiles')
 
     def __str__(self):
-        return self.phone_number
+        return self.user.email
 
 
