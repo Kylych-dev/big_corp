@@ -1,6 +1,7 @@
 from pathlib import Path
 from datetime import timedelta
 import os
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-iy70^9i^gqqy$jovp&kv5=t^pw!-)j4je7m$4_=mi)8k@)3^3w'
@@ -26,7 +27,8 @@ INSTALLED_APPS = [
     # apps
     'apps.product.apps.ProductConfig',
     'apps.cart.apps.CartConfig',
-    'apps.account.apps.AccountConfig'
+    'apps.account.apps.AccountConfig',
+    'apps.payment.apps.PaymentConfig'
 
 ]
 

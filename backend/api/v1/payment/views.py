@@ -1,5 +1,5 @@
 from rest_framework import viewsets, status
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
@@ -9,16 +9,101 @@ from django.shortcuts import get_object_or_404
 from drf_yasg import openapi
 
 from .serializers import (
-    ProductSerializer,
-    CategorySerializer
+    OrderSerializer,
+    ShippingAddressSerializer,
+    OrderItemSerializer
 )
 
-from apps.product.models import (
-    ProductProxy,
-    Category
+from apps.payment.models import (
+    ShippingAddress,
+    Order,
+    OrderItem
 )
 
 
+class ShippingAddressViewSet(viewsets.ModelViewSet):
+    serializer_class = ShippingAddressSerializer
+
+    def get_queryset(self):
+        return ShippingAddress.objects.filter(user=self.request.user)
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(user=self.request.user)
+        return Response(
+            serializer.data,
+            status=status.HTTP_201_CREATED
+        )
+
+
+
+
+    # def get_queryset(self):
+    #     try:
+    #         shipping_address = ShippingAddress.objects.get(user=self.request.user)
+    #     except ShippingAddress.DoesNotExist:
+    #         shipping_address = None
+    #     return shipping_address
+    #
+    # def post(self, request, *args, **kwargs):
+    #     serializer = ShippingAddressSerializer(data=request.data, instance=self.get_queryset())
+    #     serializer.is_valid(raise_exception=True)
+    #     serializer.save()
+    #     return Response(
+    #         serializer.data,
+    #         status=status.HTTP_201_CREATED
+    #     )
+
+
+
+
+'''
+@login_required(login_url='account:login')
+def shipping(request):
+    pass
+
+def checkout(reqeust):
+    pass
+
+def complete_order(reqeust):
+    pass
+
+def pyament_success(reqeust):
+    pass
+
+def payment_failed(reqeust):
+    pass
+
+def admin_order_pdf(request, order_id):
+    pass
+
+
+
+
+
+'''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
 class ProductModelViewSet(viewsets.ModelViewSet):
     queryset = ProductProxy.objects.all()
     serializer_class = ProductSerializer
@@ -71,54 +156,4 @@ class ProductModelViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(product)
         return Response(serializer.data)
 
-
-    # def product_detail(self, request, *args, **kwargs):
-    #     slug = request.query_params.get("slug", None)
-    #     print(slug, '------------')
-    #     if slug is None:
-    #         try:
-    #             product = self.get_queryset().get(slug=slug)
-    #             serializer = self.get_serializer(product)
-    #             return Response(serializer.data)
-    #         except Product.DoesNotExist:
-    #             return Response(
-    #                 {
-    #                     "detail": "Продукт не найден."
-    #                     },
-    #                     status=status.HTTP_404_NOT_FOUND
-    #                 )
-
-
-
-
-class CategoryModelViewSet(viewsets.ModelViewSet):
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
-    permission_classes = [AllowAny]
-
-    @swagger_auto_schema(
-        method="get",
-        operation_description="Получение списка категориев",
-        operation_summary="Категории товаров",
-        operation_id="Category_products",
-        tags=["Category"],
-        responses={
-            200: openapi.Response(description="OK - Список успешно получен"),
-            400: openapi.Response(description="Bad Request - Неверный запрос"),
-            401: openapi.Response(description="Unauthorized - Неавторизованный запрос"),
-            404: openapi.Response(description="Not Found - Ресурс не найден"),
-        },
-    )
-    @action(detail=True, methods=["get"])
-    def category_list(self, request, slug=None):
-        category = get_object_or_404(Category, slug=slug)
-        products = ProductProxy.objects.select_related("category").filter(category=category)
-        serializer_product = ProductSerializer(products, many=True)
-        serializer = self.get_serializer(category)
-        return Response(
-            {
-                'category': serializer.data,
-                'product': serializer_product.data,
-            }
-        )
-
+'''

@@ -51,7 +51,13 @@ class CartModelViewSet(viewsets.ViewSet):
     @action(detail=True, methods=["update"])
     def cart_update(self, request):
         cart = Cart(request)
-
+        data = request.data
+        for product_id, quantity in data.items():
+            cart.update(product_id, quantity)
+            return Response(
+                {'message': 'Product updated to cart successfully'},
+                status=status.HTTP_200_OK
+            )
 
 '''
 
