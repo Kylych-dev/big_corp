@@ -46,7 +46,6 @@ class UserRegisterView(APIView):
         )
 
 
-
 class ManagerRegisterView(APIView):
     authentication_classes = []
     permission_classes = [permissions.AllowAny,]
@@ -63,7 +62,6 @@ class ManagerRegisterView(APIView):
             serializer.errors,
             status=status.HTTP_400_BAD_REQUEST
         )
-
 
 
 class UserAuthenticateView(viewsets.ViewSet):

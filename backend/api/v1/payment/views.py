@@ -22,15 +22,38 @@ from apps.payment.models import (
 
 
 class ShippingAddressViewSet(viewsets.ModelViewSet):
-    queryset = ShippingAddress.objects.all()
     serializer_class = ShippingAddressSerializer
 
     def get_queryset(self):
-        try:
-            shipping_address = ShippingAddress.objects.get(user=self.request.user)
-        except ShippingAddress.DoesNotExist:
-            shipping_address = None
-        return shipping_address
+        return ShippingAddress.objects.filter(user=self.request.user)
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(user=self.request.user)
+        return Response(
+            serializer.data,
+            status=status.HTTP_201_CREATED
+        )
+
+
+
+
+    # def get_queryset(self):
+    #     try:
+    #         shipping_address = ShippingAddress.objects.get(user=self.request.user)
+    #     except ShippingAddress.DoesNotExist:
+    #         shipping_address = None
+    #     return shipping_address
+    #
+    # def post(self, request, *args, **kwargs):
+    #     serializer = ShippingAddressSerializer(data=request.data, instance=self.get_queryset())
+    #     serializer.is_valid(raise_exception=True)
+    #     serializer.save()
+    #     return Response(
+    #         serializer.data,
+    #         status=status.HTTP_201_CREATED
+    #     )
 
 
 
